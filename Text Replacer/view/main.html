@@ -9,131 +9,131 @@
     <script src="js/listview.js"></script>
     <script>
 $(function() {
-	selectView(0);
+    selectView(0);
 });
 function selectView(index) {
-	$(".view").hide();
-	$(".view:eq("+index+")").show();
+    $(".view").hide();
+    $(".view:eq("+index+")").show();
 }
 
 var listFile;
 $(function() {
-	listFile = $("#listFile");
-
-	listFile.on("dragleave", function() {
-		return false;
-	});
-	listFile.on("dragover", function() {
-		if (!showDrag) {
-			window.external.showDragging("#listFile");
-		}
-		return false;
-	});
-	/*
-	listFile[0].addEventListener("drop", function(e) {
-		e.stopPropagation();
-		e.preventDefault();
-	}, false);
-	*/
+    listFile = $("#listFile").setDroppable();
+    /*
+    listFile.on("dragleave", function() {
+        return false;
+    });
+    listFile.on("dragover", function() {
+        if (!showDrag) {
+            window.external.showDragging("#listFile");
+        }
+        return false;
+    });
+    /*
+    listFile[0].addEventListener("drop", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }, false);
+    */
     ListView.run[listFile] = function (li) {
         window.external.OpenSource(li.text());
     }
 });
 function addFile(file) {
-	listFile.append($("<li>").text(file));
+    listFile.append($("<li>").text(file));
 }
 function getFiles() {
-	var files = [];
-	listFile.find("li").each(function() {
-		files.push($(this).text());
-	});
-	return files.join("?");
+    var files = [];
+    listFile.find("li").each(function() {
+        files.push($(this).text());
+    });
+    return files.join("?");
 }
 function clearFiles() {
-	listFile.empty();
+    listFile.empty();
 }
 
 var inputFilters;
 $(function() {
-	inputFilters = $("#inputFilters");
+    inputFilters = $("#inputFilters");
 });
 function setFilters(value) {
-	inputFilters.val(value);
+    inputFilters.val(value);
 }
 function getFilters() {
-	return inputFilters.val();
+    return inputFilters.val();
 }
 
 var listReplacer;
 $(function() {
-	listReplacer = $("#listReplacer");
-	var preset = listReplacer.find("li.preset");
-	listReplacer.data("preset", preset.clone());
-	preset.remove();
-	listReplacer.on("click", ".btnDeleteReplacer", function() {
-		$(this).parents("li").remove();
-	});
-	$("#btnAddReplacer").on("click", function() {
-		addReplacer("", "");
-	});
-	/*
-	addReplacer('다시 한번', '다시 한 번');
-	addReplacer('그리고 보니', '그러고 보니');
-	addReplacer('뒤쳐', '뒤처');
-	addReplacer('제 정신', '제정신');
-	addReplacer('스탠드 얼론', '스탠드얼론');
-	addReplacer('멘테넌스', '메인터넌스');
-	addReplacer('뒷처리', '뒤처리');
-	addReplacer('스탭도', '스태프도');
-	addReplacer('등 져선', '등져선');
-	addReplacer('타코이즈', '터쿼이즈');
-	addReplacer('쓰레드', '스레드');
-	addReplacer('져버리지', '저버리지');
-	addReplacer('글러먹', '글러 먹');
-	*/
-	if (window.external.LoadDefaultReplacers) window.external.LoadDefaultReplacers();
+    listReplacer = $("#listReplacer");
+    var preset = listReplacer.find("li.preset");
+    listReplacer.data("preset", preset.clone());
+    preset.remove();
+    listReplacer.on("click", ".btnDeleteReplacer", function() {
+        $(this).parents("li").remove();
+    });
+    $("#btnAddReplacer").on("click", function() {
+        addReplacer("", "");
+    });
+    /*
+    addReplacer('다시 한번', '다시 한 번');
+    addReplacer('그리고 보니', '그러고 보니');
+    addReplacer('뒤쳐', '뒤처');
+    addReplacer('제 정신', '제정신');
+    addReplacer('스탠드 얼론', '스탠드얼론');
+    addReplacer('멘테넌스', '메인터넌스');
+    addReplacer('뒷처리', '뒤처리');
+    addReplacer('스탭도', '스태프도');
+    addReplacer('등 져선', '등져선');
+    addReplacer('타코이즈', '터쿼이즈');
+    addReplacer('쓰레드', '스레드');
+    addReplacer('져버리지', '저버리지');
+    addReplacer('글러먹', '글러 먹');
+    */
+    if (window.external.LoadDefaultReplacers) window.external.LoadDefaultReplacers();
 });
 function addReplacer(v1, v2) {
-	var li = listReplacer.data("preset").clone();
-	li.find("input[name=v1]").val(v1);
-	li.find("input[name=v2]").val(v2);
-	listReplacer.append(li);
+    var li = listReplacer.data("preset").clone();
+    li.find("input[name=v1]").val(v1);
+    li.find("input[name=v2]").val(v2);
+    listReplacer.append(li);
 }
 function addReplacers(replacers) {
-	if (confirm("기존 값은 삭제하시겠습니까?")) {
-		listReplacer.find("li").remove();
-	}
-	for (var i=0, replacer; replacer=replacers[i]; i++) {
-		addReplacer(replacer[0]);
-	}
+    if (confirm("기존 값은 삭제하시겠습니까?")) {
+        listReplacer.find("li").remove();
+    }
+    for (var i=0, replacer; replacer=replacers[i]; i++) {
+        addReplacer(replacer[0]);
+    }
 }
 function getReplacers() {
-	var replacers = [];
-	listReplacer.find("li").each(function() {
-		var li = $(this);
-		var v1 = li.find("input[name=v1]").val();
-		if (v1 == "") return;
-		var v2 = li.find("input[name=v2]").val();
-		replacers.push([v1, v2]);
-	});
-	return JSON.stringify(replacers);
+    var replacers = [];
+    listReplacer.find("li").each(function() {
+        var li = $(this);
+        var v1 = li.find("input[name=v1]").val();
+        if (v1 == "") return;
+        var v2 = li.find("input[name=v2]").val();
+        replacers.push([v1, v2]);
+    });
+    return JSON.stringify(replacers);
 }
 
 $(function() {
-	$("#view1left, #view1right").on("click", function() {
-		selectView(0);
-	});
+    $("#view1left, #view1right").on("click", function() {
+        selectView(0);
+    });
 });
 function showPreview(source, replaced) {
-	selectView(1);
-	$("#view1left").html(source.split("\n").join("<br />"));
-	$("#view1right").html(replaced.split("\n").join("<br />"));
+    selectView(1);
+    $("#view1left").html(source.split("\n").join("<br />"));
+    $("#view1right").html(replaced.split("\n").join("<br />"));
 }
 
 $(function() {
-	$("#btnSubmit").on("click", function() {
-		window.external.doReplace();
-	});
+    $("#btnSubmit").on("click", function() {
+        window.external.doReplace();
+    });
 });
     </script>
     <link rel="stylesheet" type="text/css" href="css/common.css" />
