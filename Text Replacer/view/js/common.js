@@ -94,4 +94,8 @@ $(function() {
             window.external.hideDragging();
         }
     });
+
+    doc.on("contextmenu", function () {
+        return false;
+    });
 });
