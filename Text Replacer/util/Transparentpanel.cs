@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Text_Replacer
+namespace Web_Form
 {
     public class TransparentPanel : Panel
     {

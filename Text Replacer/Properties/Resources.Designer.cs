@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Text_Replacer.Properties {
+namespace Web_Form.Properties {
     using System;
     
     

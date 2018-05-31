@@ -19,23 +19,8 @@ function selectView(index) {
 var listFile;
 $(function() {
     listFile = $("#listFile").setDroppable();
-    /*
-    listFile.on("dragleave", function() {
-        return false;
-    });
-    listFile.on("dragover", function() {
-        if (!showDrag) {
-            window.external.showDragging("#listFile");
-        }
-        return false;
-    });
-    /*
-    listFile[0].addEventListener("drop", function(e) {
-        e.stopPropagation();
-        e.preventDefault();
-    }, false);
-    */
-    ListView.run[listFile] = function (li) {
+
+    ListView.run["listFile"] = function (li) {
         window.external.OpenSource(li.text());
     }
 });

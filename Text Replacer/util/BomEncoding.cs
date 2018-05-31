@@ -1,10 +1,9 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.IO;
 
-namespace Text_Replacer
+namespace Web_Form
 {
-    class Common
+    class BomEncoding
     {
         public static char[] BOM_UTF7 = { (char)0x2b, (char)0x2f, (char)0x76 };
         public static char[] BOM_UTF8 = { (char)0xef, (char)0xbb, (char)0xbf };
@@ -42,16 +41,19 @@ namespace Text_Replacer
             }
 
             // Analyze the BOM
-            foreach(BOM b in boms)
+            foreach (BOM b in boms)
             {
-                for (int i=0; i<b.bom.Length; i++)
+                bool isFailed = false;
+                for (int i = 0; i < b.bom.Length; i++)
                 {
                     if (b.bom[i] != bom[i])
                     {
+                        isFailed = true;
                         break;
                     }
-                    return b.encoding;
                 }
+                if (!isFailed)
+                    return b.encoding;
             }
             return Encoding.Default;
         }

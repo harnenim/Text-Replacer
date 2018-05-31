@@ -5,6 +5,13 @@
 $(function () {
     $(".list-selectable").each(function() {
         var listView = $(this).attr("tabindex", "0").attr("onselectstart", "return false");
+
+        var id = listView.attr("id");
+        if (!id) {
+            id = "id_" + Math.random();
+            listView.attr("id", id);
+        }
+
         listView.css({"position": "relative"});
         listView.on("click", function() {
             if (onMouseUp) {
@@ -26,7 +33,7 @@ $(function () {
             return false;
         });
         listView.on("dblclick", "li", function () {
-            var run = ListView.run[listView];
+            var run = ListView.run[id];
             if (run) {
                 run($(this));
             }
@@ -94,7 +101,7 @@ $(function () {
                 case 13:
                     var index = lastClickedIndex();
                     if (index >= 0) selectItem(listView.find("li:eq(" + index + ")"), true);
-                    var run = ListView.run[listView];
+                    var run = ListView.run[id];
                     if (run) {
                         run(listView.find("li.last-selected"));
                     }
@@ -155,9 +162,9 @@ $(function () {
         function selectionRect(x1, y1, x2, y2) {
             var rect = {
                     "top": Math.min(y1, y2)
-                ,    "left": Math.min(x1, x2)
-                ,    "width": (((x1<x2 ? 1 : -1) * (x2 - x1)) - 2)
-                ,    "height": (((y1<y2 ? 1 : -1) * (y2 - y1)) - 2)
+                ,   "left": Math.min(x1, x2)
+                ,   "width": (((x1<x2 ? 1 : -1) * (x2 - x1)) - 2)
+                ,   "height": (((y1<y2 ? 1 : -1) * (y2 - y1)) - 2)
             };
             if (rect.top  < listViewRect[1]) { rect.height -= (listViewRect[1] - rect.top ); rect.top  = listViewRect[1]; }
             if (rect.left < listViewRect[0]) { rect.width  -= (listViewRect[0] - rect.left); rect.left = listViewRect[0]; }
