@@ -34,18 +34,18 @@ namespace Web_Form
 
         public void IsEternal() { }
 
-        /*
-         * 드래그 관련
-         */
+
+        #region 드래그 관련
+
         protected delegate void DropActionDelegate(DragEventArgs e);
         protected string dragging = null;
         protected Dictionary<string, DragDropEffects> dragEffects = new Dictionary<string, DragDropEffects>();
         protected Dictionary<string, DropActionDelegate> dropActions = new Dictionary<string, DropActionDelegate>();
 
-        public void ShowDragging(string selector)
+        public void ShowDragging(string id)
         {
-            dragging = selector;
-            string[] pos = mainView.Document.InvokeScript("getPositionOf", new object[] { selector }).ToString().Split(',');
+            dragging = id;
+            string[] pos = mainView.Document.InvokeScript("getPositionOf", new object[] { id }).ToString().Split(',');
             layerForDrag.Visible = true;
             layerForDrag.Left = mainView.Left + Int32.Parse(pos[0]);
             layerForDrag.Top = mainView.Top + Int32.Parse(pos[1]);
@@ -69,9 +69,21 @@ namespace Web_Form
             ThreadScript("setDroppable", new object[] { id });
         }
 
-        /*
-         * 스크립트 핸들러
-         */
+        #endregion
+
+
+        #region 클릭 이벤트
+
+        protected void SetClickEvent(string id, string action)
+        {
+            ThreadScript("setClickEvent", new object[] { id, action });
+        }
+
+        #endregion
+
+
+        #region 스크립트 핸들러
+
         delegate string ScriptHandler(string script, object[] args);
         protected string ThreadScript(string script, object[] args)
         {
@@ -118,9 +130,11 @@ namespace Web_Form
             Handler(null, null);
         }
 
-        /*
-         * 파일 열기 대화상자
-         */
+        #endregion
+
+
+        #region 파일 열기 대화상자
+
         protected delegate bool OpenFileDelegate(string path);
         protected Dictionary<string, OpenFileDelegate> openFileActions = new Dictionary<string, OpenFileDelegate>();
 
@@ -143,5 +157,7 @@ namespace Web_Form
         {
             openFileActions.Add(id, action);
         }
+
+        #endregion
     }
 }

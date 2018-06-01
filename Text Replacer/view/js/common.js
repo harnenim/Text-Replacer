@@ -28,10 +28,13 @@ function setDroppable(id) {
         return false;
     });
 }
+function setClickEvent(id, action) {
+    $("#" + id).on("click", function () {
+        window.external[action]();
+    });
+}
 
 $(function () {
-    window.external.InitAfterLoad();
-
     var doc = $(document);
     var views = $(".view");
     views.css({"height": window.innerHeight});
@@ -53,7 +56,8 @@ $(function () {
             case 18: alt   = false; break;
         }
     };
-    window.onmousewheel = function() {
+    window.onmousewheel = function () {
+        // 확대/축소 방지
         if (ctrl) {
             return false;
         }
@@ -69,13 +73,17 @@ $(function () {
             onMouseUp = true;
         }
     });
-    doc.on("dragover", function() {
+    doc.on("dragover", function () {
+        // 드래그 중 벗어났으면 해제
         if (showDrag) {
             window.external.hideDragging();
         }
     });
 
+        // 우클릭 방지
     doc.on("contextmenu", function () {
         return false;
     });
+
+    if (window.external.InitAfterLoad) window.external.InitAfterLoad();
 });

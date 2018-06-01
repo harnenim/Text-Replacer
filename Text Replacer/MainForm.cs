@@ -13,6 +13,8 @@ namespace Web_Form
 
     public partial class MainForm : WebForm
     {
+        #region 초기화
+
         public MainForm()
         {
             ClientSize = new System.Drawing.Size(1008, 729);
@@ -23,7 +25,12 @@ namespace Web_Form
         public override void InitAfterLoad()
         {
             SetDragEvent("listFile", DragDropEffects.All, new DropActionDelegate(DropListFile));
+            SetClickEvent("btnSubmit", "DoReplace");
         }
+
+        #endregion
+
+        #region 파일 드래그
 
         private void DropListFile(DragEventArgs e)
         {
@@ -85,6 +92,10 @@ namespace Web_Form
             }
         }
 
+        #endregion
+
+
+        // 이 프로그램에선 string[][] 형식 json으로만 주고받음
         public string[][] JsonReplacersToArray(string json)
         {
             //return new string[][] { };
@@ -99,6 +110,7 @@ namespace Web_Form
         }
 
         private static string defaultReplacersFile = "conf/replacers.json";
+
 
         public void LoadDefaultReplacers()
         {

@@ -114,12 +114,6 @@ function showPreview(source, replaced) {
     $("#view1left").html(source.split("\n").join("<br />"));
     $("#view1right").html(replaced.split("\n").join("<br />"));
 }
-
-$(function() {
-    $("#btnSubmit").on("click", function() {
-        window.external.doReplace();
-    });
-});
     </script>
     <link rel="stylesheet" type="text/css" href="css/common.css" />
     <link rel="stylesheet" type="text/css" href="css/listview.css" />
