@@ -78,6 +78,10 @@ namespace Web_Form
         {
             ThreadScript("setClickEvent", new object[] { id, action });
         }
+        protected void SetChangeEvent(string id, string action)
+        {
+            ThreadScript("setChangeEvent", new object[] { id, action });
+        }
 
         #endregion
 
