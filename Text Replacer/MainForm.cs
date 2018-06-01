@@ -22,7 +22,6 @@ namespace Web_Form
 
         public override void InitAfterLoad()
         {
-            Console.WriteLine("MainForm InitAfterLoad");
             SetDragEvent("listFile", DragDropEffects.All, new DropActionDelegate(DropListFile));
         }
 

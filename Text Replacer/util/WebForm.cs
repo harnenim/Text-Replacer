@@ -64,7 +64,6 @@ namespace Web_Form
         private void DragDropMain(object sender, DragEventArgs e) { dropActions[dragging]?.Invoke(e); HideDragging(); }
         protected void SetDragEvent(string id, DragDropEffects effect, DropActionDelegate action)
         {
-            Console.WriteLine("SetDragEvent");
             dragEffects.Add(id, effect);
             dropActions.Add(id, action);
             ThreadScript("setDroppable", new object[] { id });
