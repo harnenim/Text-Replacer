@@ -18,9 +18,14 @@ namespace Web_Form
             ClientSize = new System.Drawing.Size(1008, 729);
             Name = "MainForm";
             Text = "Text Replacer";
-            SetDragEvent("#listFile", DragDropEffects.All, new DropActionDelegate(DropListFile));
         }
-        
+
+        public override void InitAfterLoad()
+        {
+            Console.WriteLine("MainForm InitAfterLoad");
+            SetDragEvent("listFile", DragDropEffects.All, new DropActionDelegate(DropListFile));
+        }
+
         private void DropListFile(DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))

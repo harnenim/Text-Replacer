@@ -8,34 +8,30 @@ var showDrag = false;
 function setShowDrag(dragging) {
     showDrag = dragging;
 }
-function getRectOf(selector) {
-    var obj = $(selector);
+function getRectOf(id) {
+    var obj = $("#" + id);
     var pos = obj.offset();
     return [pos.left, pos.top, obj.outerWidth(), obj.outerHeight()];
 }
-function getPositionOf(selector) {
-    return getRectOf(selector).join(",");
+function getPositionOf(id) {
+    return getRectOf(id).join(",");
 }
-
-$.prototype.setDroppable = function () {
-    var id = this.attr("id");
-    if (!id) {
-        id = "id_" + Math.random();
-        this.attr("id", id);
-    }
-    this.on("dragleave", function () {
+function setDroppable(id) {
+    var view = $("#" + id);
+    view.on("dragleave", function () {
         return false;
     });
-    this.on("dragover", function () {
+    view.on("dragover", function () {
         if (!showDrag) {
-            window.external.showDragging("#" + id);
+            window.external.showDragging(id);
         }
         return false;
     });
-    return this;
-};
+}
 
-$(function() {
+$(function () {
+    window.external.InitAfterLoad();
+
     var doc = $(document);
     var views = $(".view");
     views.css({"height": window.innerHeight});
@@ -73,22 +69,6 @@ $(function() {
             onMouseUp = true;
         }
     });
-    /*
-    doc.on("keydown", function(e) {
-        switch (e.keyCode) {
-            case 16: shift = true; break;
-            case 17: ctrl  = true; break;
-            case 18: alt   = true; break;
-        }
-    });
-    doc.on("keyup", function(e) {
-        switch (e.keyCode) {
-            case 16: shift = false; break;
-            case 17: ctrl  = false; break;
-            case 18: alt   = false; break;
-        }
-    });
-    */
     doc.on("dragover", function() {
         if (showDrag) {
             window.external.hideDragging();
