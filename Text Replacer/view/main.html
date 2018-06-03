@@ -39,6 +39,11 @@ function clearFiles() {
     listFile.empty();
 }
 
+function setTextareaHeight(obj) {
+    var lineCount = obj.val().split("\n").length;
+    obj.css("height", 2 + 14 * lineCount);
+}
+
 var inputFilters;
 $(function() {
     inputFilters = $("#inputFilters");
@@ -54,17 +59,11 @@ var listReplacer;
 $(function() {
     listReplacer = $("#listReplacer");
     var preset = listReplacer.find("li.preset");
-    preset.find("textarea").on("keyup", function () {
-        var input = $(this);
-        console.log(input.val().split("\n").length);
-    });
     listReplacer.data("preset", preset.clone(true));
     preset.remove();
 
     listReplacer.on("keyup", "textarea", function () {
-        var input = $(this);
-        var lineCount = input.val().split("\n").length;
-        input.css("height", 2 + 14 * lineCount);
+        setTextareaHeight($(this));
     });
 
     listReplacer.on("click", ".btnDeleteReplacer", function() {
@@ -92,8 +91,8 @@ $(function() {
 });
 function addReplacer(v1, v2) {
     var li = listReplacer.data("preset").clone();
-    li.find("[name=v1]").val(v1);
-    li.find("[name=v2]").val(v2);
+    setTextareaHeight(li.find("[name=v1]").val(v1));
+    setTextareaHeight(li.find("[name=v2]").val(v2));
     listReplacer.append(li);
 }
 function addReplacers(replacers) {
