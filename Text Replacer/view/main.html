@@ -53,8 +53,19 @@ var listReplacer;
 $(function() {
     listReplacer = $("#listReplacer");
     var preset = listReplacer.find("li.preset");
-    listReplacer.data("preset", preset.clone());
+    preset.find("textarea").on("keyup", function () {
+        var input = $(this);
+        console.log(input.val().split("\n").length);
+    });
+    listReplacer.data("preset", preset.clone(true));
     preset.remove();
+
+    listReplacer.on("keyup", "textarea", function () {
+        var input = $(this);
+        var lineCount = input.val().split("\n").length;
+        input.css("height", 2 + 14 * lineCount);
+    });
+
     listReplacer.on("click", ".btnDeleteReplacer", function() {
         $(this).parents("li").remove();
     });
@@ -80,8 +91,8 @@ $(function() {
 });
 function addReplacer(v1, v2) {
     var li = listReplacer.data("preset").clone();
-    li.find("input[name=v1]").val(v1);
-    li.find("input[name=v2]").val(v2);
+    li.find("[name=v1]").val(v1);
+    li.find("[name=v2]").val(v2);
     listReplacer.append(li);
 }
 function addReplacers(replacers) {
@@ -96,9 +107,9 @@ function getReplacers() {
     var replacers = [];
     listReplacer.find("li").each(function() {
         var li = $(this);
-        var v1 = li.find("input[name=v1]").val();
+        var v1 = li.find("[name=v1]").val();
         if (v1 == "") return;
-        var v2 = li.find("input[name=v2]").val();
+        var v2 = li.find("[name=v2]").val();
         replacers.push([v1, v2]);
     });
     return JSON.stringify(replacers);
@@ -125,7 +136,7 @@ function showPreview(source, replaced) {
             width: calc(50% - 4px);
         }
         #view0left, #view0right {
-            height: calc(100% - 38px);
+            height: calc(100% - 36px);
         }
 
         #listFile {
@@ -147,7 +158,7 @@ function showPreview(source, replaced) {
         }
 
         #inputFilters {
-            width: calc(100% - 76px);
+            width: calc(100% - 74px);
         }
 
         #areaReplacer {
@@ -159,19 +170,34 @@ function showPreview(source, replaced) {
 
         #listReplacer > li {
             width: 100%;
-            height: 20px;
             margin-bottom: 2px;
         }
 
-            #listReplacer > li > input {
-                width: calc(50% - 50px);
-                height: calc(100% - 4px);
-            }
+        #listReplacer > li > * {
+            vertical-align: top;
+        }
 
-            #listReplacer > li > button {
-                width: 50px;
-                height: 100%;
-            }
+        #listReplacer > li > textarea {
+            width: calc(50% - 36px);
+            height: 16px;
+            overflow-y: hidden;
+            line-height: 14px;
+            white-space: pre-line;
+        }
+
+        #listReplacer > li > span {
+            display: inline-block;
+            width: 16px;
+            height: 14px;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        #listReplacer > li > button {
+            width: 50px;
+            height: 18px;
+            margin-left: 2px;
+        }
 
         #btnAddReplacer {
             width: 100%;
@@ -181,12 +207,12 @@ function showPreview(source, replaced) {
         #areaSubmit {
             clear: both;
             width: 100%;
-            height: 34px;
+            height: 32px;
         }
 
         #btnSubmit {
             width: calc(100% - 4px);
-            height: calc(100% - 6px);
+            height: calc(100% - 4px);
             margin: 2px;
         }
 
@@ -217,8 +243,7 @@ function showPreview(source, replaced) {
             <div id="areaReplacer">
                 <ol id="listReplacer">
                     <li class="preset">
-                        <input type="text" name="v1" />→<input type="text" name="v2" />
-                        <button type="button" class="btnDeleteReplacer">삭제</button>
+                        <textarea name="v1"></textarea><span>→</span><textarea name="v2"></textarea><button type="button" class="btnDeleteReplacer">삭제</button>
                     </li>
                 </ol>
                 <button type="button" id="btnAddReplacer">추가</button>
