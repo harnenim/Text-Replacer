@@ -157,55 +157,77 @@ namespace Web_Form
 
         #endregion
 
-
+        // html 뷰에서 문자열 쌍(json) 가져오기
         public string GetReplacersJson()
         {
             return Script("getReplacers").ToString();
         }
+        // json 문자열 쌍을 이중배열로 변환(string[][2]로 나와야 함)
         public string[][] GetReplacers(string json)
         {
             return JsonReplacersToArray(json);
         }
+
+        /*
+         * string file: 파일 경로
+         * string[][2] replacers: 문자열 쌍
+         * return string[4]: 원본 / 원본 미리보기 / 결과 / 결과 미리보기
+         * ... 사실 string 4개짜리 class 만들기 귀찮아서 string[4]로 처리한 거임
+         */
         public string[] GetReplaced(string file, string[][] replacers)
         {
             return GetReplaced(file, BomEncoding.DetectEncoding(file), replacers);
         }
+        /*
+         * string file: 파일 경로
+         * Encoding encoding: 파일 문자열 인코딩
+         * string[][2] replacers: 문자열 쌍
+         * return string[4]: 원본 / 원본 미리보기 / 결과 / 결과 미리보기
+         */
         public string[] GetReplaced(string file, Encoding encoding, string[][] replacers)
         {
+            // 원본 / 원본 미리보기 / 결과 / 결과 미리보기
             string source = null, sourcePreview = null, replaced = null, replacedPreview = null;
 
             StreamReader sr = null;
             try
             {
                 sr = new StreamReader(file, encoding);
+
+                // 모두 불러온 대로 초기화
                 source = sourcePreview = replaced = replacedPreview = sr.ReadToEnd();
             }
-            catch
-            {
+            catch { }
+            finally { if (sr != null) sr.Close(); }
 
-            }
-            finally
-            {
-                if (sr != null) sr.Close();
-            }
-
-            sourcePreview = System.Security.SecurityElement.Escape(sourcePreview);
+            // 미리보기 html escape
+            sourcePreview   = System.Security.SecurityElement.Escape(sourcePreview  );
             replacedPreview = System.Security.SecurityElement.Escape(replacedPreview);
 
+            // 각각의 변환 대상 문자열 쌍에 대해 변환
             foreach (string[] replacer in replacers)
             {
+                // 원본 미리보기(하이라이트 태그만 씌움) / 결과 / 결과 미리보기 각각 변환
                 sourcePreview = sourcePreview.Replace(replacer[0], "<span class='highlight'>" + replacer[0] + "</span>");
                 replaced = replaced.Replace(replacer[0], replacer[1]);
                 replacedPreview = replacedPreview.Replace(replacer[0], "<span class='highlight'>" + replacer[1] + "</span>");
+                // 태그가 붙은 replacedPreview는 2번째 이후 변환값에 대해 문제가 생길 가능성이 있어 보임
+                // 뜯어고쳐야 함... 이런 식으로 하지 말고 모든 변환 위치를 기억해둬야 할 것 같음...
+                // 아니 근데 솔직히 변환 기능이랑 별개로 그냥 미리보기 하나 만들자고 구조 뜯어고치는 것도 뻘짓 같은데
             }
 
+            // return string[4]: 원본 / 원본 미리보기 / 결과 / 결과 미리보기
             return new string[] { source, sourcePreview, replaced, replacedPreview };
         }
-        public void OpenSource(string file)
+
+        // 선택한 파일 미리보기
+        public void ShowPreview(string file)
         {
             string[] replaced = GetReplaced(file, GetReplacers(GetReplacersJson()));
             Script("showPreview", new object[] { replaced[1], replaced[3] });
         }
+
+        // 변환 및 저장
         public void DoReplace()
         {
             string replacersJson = GetReplacersJson();
@@ -224,6 +246,7 @@ namespace Web_Form
                 StreamWriter sw = null;
                 try
                 {
+                    // 원본 파일의 인코딩대로 저장
                     sw = new StreamWriter(file, false, encoding);
                     sw.Write(replaced[2]);
                 }
@@ -236,7 +259,10 @@ namespace Web_Form
                     if (sw != null) sw.Close();
                 }
             }
+
+            // 변환했으면 변환 문자열 쌍을 기억해둠
             SaveDefaultReplacers(replacersJson);
+
             Script("alert", new object[] { "작업이 완료됐습니다." });
         }
     }
