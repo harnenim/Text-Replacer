@@ -1,26 +1,23 @@
 ﻿using System.Text;
 using System.IO;
 
-namespace Web_Form
+namespace TextFile
 {
-    class BomEncoding
+    class BOM
     {
+        public char[] bom;
+        public Encoding encoding;
+        public BOM(Encoding encoding, char[] bom)
+        {
+            this.bom = bom;
+            this.encoding = encoding;
+        }
+
         public static char[] BOM_UTF7 = { (char)0x2b, (char)0x2f, (char)0x76 };
         public static char[] BOM_UTF8 = { (char)0xef, (char)0xbb, (char)0xbf };
         public static char[] BOM_UTF16LE = { (char)0xff, (char)0xfe };
         public static char[] BOM_UTF16BE = { (char)0xfe, (char)0xff };
         public static char[] BOM_UTF32 = { (char)0x00, (char)0x00, (char)0xfe, (char)0xff };
-
-        private class BOM
-        {
-            public char[] bom;
-            public Encoding encoding;
-            public BOM(Encoding encoding, char[] bom)
-            {
-                this.bom = bom;
-                this.encoding = encoding;
-            }
-        }
 
         private static BOM[] boms = {
                 new BOM(Encoding.UTF7, BOM_UTF7)

@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Security.Permissions;
 using Newtonsoft.Json.Linq;
+using TextFile;
 
 namespace Web_Form
 {
@@ -176,7 +177,7 @@ namespace Web_Form
          */
         public string[] GetReplaced(string file, string[][] replacers)
         {
-            return GetReplaced(file, BomEncoding.DetectEncoding(file), replacers);
+            return GetReplaced(file, BOM.DetectEncoding(file), replacers);
         }
         /*
          * string file: 파일 경로
@@ -241,7 +242,7 @@ namespace Web_Form
             string[] files = filesString.Split('?');
             foreach (string file in files)
             {
-                Encoding encoding = BomEncoding.DetectEncoding(file);
+                Encoding encoding = BOM.DetectEncoding(file);
                 string[] replaced = GetReplaced(file, encoding, replacers);
                 StreamWriter sw = null;
                 try

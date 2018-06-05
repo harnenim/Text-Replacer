@@ -180,7 +180,7 @@ function showPreview(source, replaced) {
         #listReplacer > li > textarea {
             width: calc(50% - 36px);
             height: 16px;
-            overflow-y: hidden;
+            overflow: hidden;
             line-height: 14px;
             white-space: pre-line;
         }
@@ -243,7 +243,7 @@ function showPreview(source, replaced) {
             <div id="areaReplacer">
                 <ol id="listReplacer">
                     <li class="preset">
-                        <textarea name="v1"></textarea><span>→</span><textarea name="v2"></textarea><button type="button" class="btnDeleteReplacer">삭제</button>
+                        <textarea name="v1" wrap="off"></textarea><span>→</span><textarea name="v2" wrap="off"></textarea><button type="button" class="btnDeleteReplacer">삭제</button>
                     </li>
                 </ol>
                 <button type="button" id="btnAddReplacer">추가</button>
