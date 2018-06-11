@@ -72,29 +72,16 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="util\WebForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="util\WebForm.Designer.cs">
-      <DependentUpon>WebForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="util\TransparentPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="util\TextFileBom.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="util\WebForm.resx">
-      <DependentUpon>WebForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -142,6 +129,16 @@
     <Content Include="view\main.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TextFileBom\TextFileBom.csproj">
+      <Project>{346e213b-4ec8-4419-bbb5-5d1345beffc6}</Project>
+      <Name>TextFileBom</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WebForm\WebForm.csproj">
+      <Project>{c4fd894b-c9bc-4548-a847-b352c9b7dc9f}</Project>
+      <Name>WebForm</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

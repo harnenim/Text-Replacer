@@ -34,6 +34,15 @@ function setClickEvent(id, action) {
     });
 }
 
+function call(names, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9) {
+    var func = window;
+    names = names.split(".");
+    for (var i = 0, name; name = names[i]; i++) {
+        func = func[name];
+    }
+    return func(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+}
+
 $(function () {
     var doc = $(document);
     var views = $(".view");

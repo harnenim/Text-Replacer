@@ -3,7 +3,7 @@ using System.IO;
 
 namespace TextFile
 {
-    class BOM
+    public class BOM
     {
         public char[] bom;
         public Encoding encoding;

@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Forms;
 using System.Security.Permissions;
 
-namespace Web_Form
+namespace WebForm
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
@@ -35,6 +35,41 @@ namespace Web_Form
         public void IsEternal() { }
 
 
+        #region 스크립트 핸들러
+
+        delegate string ScriptHandler(string name, object[] args);
+        protected string Script(string name) { return Script(name, null); }
+        protected string Script(string name, object[] args)
+        {
+            object result = null;
+
+            try
+            {
+                if (mainView.InvokeRequired)
+                    result = Invoke(new ScriptHandler(Script), new object[] { name, args });
+                else
+                {
+                    int len = (args == null) ? 0 : Math.Min(10, args.Length);
+                    object[] param = new object[len + 1];
+                    param[0] = name;
+                    for (int i = 0; i < len; i++)
+                        param[i + 1] = args[i];
+                    result = mainView.Document.InvokeScript("call", param);
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                Environment.Exit(0);
+            }
+
+            if (result == null) return null;
+            return result.ToString();
+        }
+
+        #endregion
+
+
         #region 드래그 관련
 
         protected delegate void DropActionDelegate(DragEventArgs e);
@@ -45,7 +80,7 @@ namespace Web_Form
         public void ShowDragging(string id)
         {
             dragging = id;
-            string[] pos = mainView.Document.InvokeScript("getPositionOf", new object[] { id }).ToString().Split(',');
+            string[] pos = Script("getPositionOf", new object[] { id }).Split(',');
             layerForDrag.Visible = true;
             layerForDrag.Left = mainView.Left + Int32.Parse(pos[0]);
             layerForDrag.Top = mainView.Top + Int32.Parse(pos[1]);
@@ -66,7 +101,7 @@ namespace Web_Form
         {
             dragEffects.Add(id, effect);
             dropActions.Add(id, action);
-            ThreadScript("setDroppable", new object[] { id });
+            Script("setDroppable", new object[] { id });
         }
 
         #endregion
@@ -76,62 +111,11 @@ namespace Web_Form
 
         protected void SetClickEvent(string id, string action)
         {
-            ThreadScript("setClickEvent", new object[] { id, action });
+            Script("setClickEvent", new object[] { id, action });
         }
         protected void SetChangeEvent(string id, string action)
         {
-            ThreadScript("setChangeEvent", new object[] { id, action });
-        }
-
-        #endregion
-
-
-        #region 스크립트 핸들러
-
-        delegate string ScriptHandler(string script, object[] args);
-        protected string ThreadScript(string script, object[] args)
-        {
-
-            object result = null;
-
-            try
-            {
-                if (mainView.InvokeRequired)
-                    result = Invoke(new ScriptHandler(ThreadScript), new object[] { script, args });
-                else
-                {
-                    if (args == null)
-                        result = mainView.Document.InvokeScript(script);
-                    else
-                        result = mainView.Document.InvokeScript(script, args);
-                }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                Environment.Exit(0);
-            }
-
-            if (result == null) return null;
-            return result.ToString();
-        }
-        protected string Script(string script)
-        {
-            object result = mainView.Document.InvokeScript(script);
-            if (result == null) return null;
-            return result.ToString();
-        }
-        protected string Script(string script, object[] args)
-        {
-            object result = mainView.Document.InvokeScript(script, args);
-            if (result == null) return null;
-            return result.ToString();
-        }
-
-        public event EventHandler Handler;
-        public void DoHandler()
-        {
-            Handler(null, null);
+            Script("setChangeEvent", new object[] { id, action });
         }
 
         #endregion

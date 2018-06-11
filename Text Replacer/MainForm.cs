@@ -7,12 +7,12 @@ using System.Security.Permissions;
 using Newtonsoft.Json.Linq;
 using TextFile;
 
-namespace Web_Form
+namespace TextReplacer
 {
     [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
     [System.Runtime.InteropServices.ComVisibleAttribute(true)]
 
-    public partial class MainForm : WebForm
+    public partial class MainForm : WebForm.WebForm
     {
         #region 초기화
 
@@ -114,8 +114,8 @@ namespace Web_Form
         {
             foreach (string strFile in strFiles)
             {
-                string[] fileExists = Script("getFiles").ToString().Split('?');
-                if (!fileExists.Contains(strFile))
+                string[] fileExists = Script("getFiles")?.Split('?');
+                if (fileExists == null || !fileExists.Contains(strFile))
                 {
                     if (Directory.Exists(strFile))
                     {
@@ -137,18 +137,22 @@ namespace Web_Form
                     }
                     else
                     {
+                        Console.WriteLine(strFile);
                         string[] filenames = strFile.Split('\\');
                         string filename = filenames[filenames.Length - 1];
                         bool isMatched = false;
                         foreach(string filter in filters)
                         {
+                            Console.WriteLine(filter);
                             if (isMatched = System.Text.RegularExpressions.Regex.IsMatch(filename, filter, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                             {
                                 break;
                             }
                         }
+                        Console.WriteLine(isMatched);
                         if (isMatched)
                         {
+                            Console.WriteLine("addFile: " + strFile);
                             Script("addFile", new object[] { strFile });
                         }
                     }
@@ -161,7 +165,7 @@ namespace Web_Form
         // html 뷰에서 문자열 쌍(json) 가져오기
         public string GetReplacersJson()
         {
-            return Script("getReplacers").ToString();
+            return Script("getReplacers");
         }
         // json 문자열 쌍을 이중배열로 변환(string[][2]로 나와야 함)
         public string[][] GetReplacers(string json)
@@ -233,8 +237,8 @@ namespace Web_Form
         {
             string replacersJson = GetReplacersJson();
             string[][] replacers = GetReplacers(replacersJson);
-            string filesString = Script("getFiles").ToString();
-            if (filesString.Length == 0)
+            string filesString = Script("getFiles");
+            if (filesString == null)
             {
                 Script("alert", new object[] { "파일이 없습니다." });
                 return;

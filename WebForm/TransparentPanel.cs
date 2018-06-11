@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Web_Form
+namespace WebForm
 {
     public class TransparentPanel : Panel
     {

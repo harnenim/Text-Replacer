@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace Web_Form
+namespace WebForm
 {
     partial class WebForm
     {
@@ -33,7 +33,7 @@ namespace Web_Form
             this.components = new System.ComponentModel.Container();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.mainView = new System.Windows.Forms.WebBrowser();
-            this.layerForDrag = new Web_Form.TransparentPanel();
+            this.layerForDrag = new TransparentPanel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,7 +61,7 @@ namespace Web_Form
             this.layerForDrag.AllowDrop = true;
             this.layerForDrag.Location = new System.Drawing.Point(0, 0);
             this.layerForDrag.Name = "layerForDrag";
-            this.layerForDrag.Size = new System.Drawing.Size(200, 100);
+            this.layerForDrag.Size = new System.Drawing.Size(0, 0);
             this.layerForDrag.TabIndex = 7;
             this.layerForDrag.DragDrop += new System.Windows.Forms.DragEventHandler(this.DragDropMain);
             this.layerForDrag.DragOver += new System.Windows.Forms.DragEventHandler(this.DragOverMain);
