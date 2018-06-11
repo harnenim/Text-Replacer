@@ -1,4 +1,4 @@
-﻿namespace Web_Form
+﻿namespace TextReplacer
 {
     partial class MainForm
     {
