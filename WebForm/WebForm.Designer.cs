@@ -54,7 +54,6 @@ namespace WebForm
             this.mainView.Name = "mainView";
             this.mainView.Size = new System.Drawing.Size(1008, 728);
             this.mainView.TabIndex = 5;
-            this.mainView.SizeChanged += new System.EventHandler(this.MainView_SizeChanged);
             // 
             // layerForDrag
             // 

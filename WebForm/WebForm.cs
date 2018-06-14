@@ -23,16 +23,16 @@ namespace WebForm
             string localURL = Path.Combine(Directory.GetCurrentDirectory(), "view/main.html");
             mainView.Url = new Uri(localURL, UriKind.Absolute);
             mainView.ObjectForScripting = this;
+
+            FormClosing += new FormClosingEventHandler(WebFormClosing);
+        }
+
+        public void WebFormClosing(object sender, FormClosingEventArgs e)
+        {
+            Controls.Remove(mainView);
         }
 
         public virtual void InitAfterLoad() { } // override용
-
-        private void MainView_SizeChanged(object sender, EventArgs e)
-        {
-            mainView.Size = ((Control)sender).Size;
-        }
-
-        public void IsEternal() { }
 
 
         #region 스크립트 핸들러
