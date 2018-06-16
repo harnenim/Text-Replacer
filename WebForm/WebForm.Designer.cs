@@ -52,7 +52,7 @@ namespace WebForm
             this.mainView.Margin = new System.Windows.Forms.Padding(0);
             this.mainView.MinimumSize = new System.Drawing.Size(20, 20);
             this.mainView.Name = "mainView";
-            this.mainView.Size = new System.Drawing.Size(1008, 728);
+            this.mainView.Size = new System.Drawing.Size(1008, 729);
             this.mainView.TabIndex = 5;
             // 
             // layerForDrag

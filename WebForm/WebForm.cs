@@ -7,9 +7,6 @@ using System.Security.Permissions;
 
 namespace WebForm
 {
-    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
-
     public partial class WebForm : Form
     {
         public WebForm()
@@ -24,12 +21,14 @@ namespace WebForm
             mainView.Url = new Uri(localURL, UriKind.Absolute);
             mainView.ObjectForScripting = this;
 
-            FormClosing += new FormClosingEventHandler(WebFormClosing);
+            FormClosed += new FormClosedEventHandler(WebFormClosed);
         }
 
-        public void WebFormClosing(object sender, FormClosingEventArgs e)
+        public void WebFormClosed(object sender, FormClosedEventArgs e)
         {
-            Controls.Remove(mainView);
+            // <textarea>에 커서 있거나 할 때 닫으면 상당한 비율로 정상종료 실패함
+            // 이게 최선인가...
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
         }
 
         public virtual void InitAfterLoad() { } // override용
