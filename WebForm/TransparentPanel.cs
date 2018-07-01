@@ -11,8 +11,8 @@ namespace WebForm
         public TransparentPanel()
         {
             Wriggler.Tick += new EventHandler(TickHandler);
-            this.Wriggler.Interval = 500;
-            this.Wriggler.Enabled = true;
+            Wriggler.Interval = 500;
+            Wriggler.Enabled = true;
         }
 
         protected void TickHandler(object sender, EventArgs e)

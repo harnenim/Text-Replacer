@@ -3,15 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using System.Security.Permissions;
 using Newtonsoft.Json.Linq;
 using TextFile;
 
 namespace TextReplacer
 {
-    [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-    [System.Runtime.InteropServices.ComVisibleAttribute(true)]
-
     public partial class MainForm : WebForm.WebForm
     {
         #region 초기화

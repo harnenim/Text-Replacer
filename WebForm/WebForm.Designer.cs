@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace WebForm
+﻿namespace WebForm
 {
     partial class WebForm
     {
@@ -32,7 +30,7 @@ namespace WebForm
         {
             this.components = new System.ComponentModel.Container();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.mainView = new System.Windows.Forms.WebBrowser();
+            this.mainView = new WebView();
             this.layerForDrag = new TransparentPanel();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -84,7 +82,7 @@ namespace WebForm
         #endregion
 
         protected System.Windows.Forms.ErrorProvider errorProvider1;
-        protected WebBrowser mainView;
+        protected WebView mainView;
         protected TransparentPanel layerForDrag;
     }
 }
