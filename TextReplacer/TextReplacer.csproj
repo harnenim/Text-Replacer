@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E8FF090D-2DA0-4282-B01C-5B03FC9E1D0E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Text_Replacer</RootNamespace>
-    <AssemblyName>Text Replacer</AssemblyName>
+    <RootNamespace>TextReplacer</RootNamespace>
+    <AssemblyName>TextReplacer</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
