@@ -17,7 +17,7 @@ namespace WebForm
 
         protected void TickHandler(object sender, EventArgs e)
         {
-            this.InvalidateEx();
+            InvalidateEx();
         }
 
         protected override CreateParams CreateParams

@@ -50,10 +50,10 @@ namespace WebForm
             dragging = id;
             string[] pos = Script("getPositionOf", new object[] { id }).Split(',');
             layerForDrag.Visible = true;
-            layerForDrag.Left = mainView.Left + Int32.Parse(pos[0]);
-            layerForDrag.Top = mainView.Top + Int32.Parse(pos[1]);
-            layerForDrag.Width = Int32.Parse(pos[2]);
-            layerForDrag.Height = Int32.Parse(pos[3]);
+            layerForDrag.Left = mainView.Left + (int)Double.Parse(pos[0]);
+            layerForDrag.Top = mainView.Top + (int)Double.Parse(pos[1]);
+            layerForDrag.Width = (int)Double.Parse(pos[2]);
+            layerForDrag.Height = (int)Double.Parse(pos[3]);
             Script("setShowDrag", new object[] { true });
         }
         public void HideDragging()

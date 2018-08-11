@@ -244,20 +244,23 @@ namespace TextReplacer
             {
                 Encoding encoding = BOM.DetectEncoding(file);
                 string[] replaced = GetReplaced(file, encoding, replacers);
-                StreamWriter sw = null;
-                try
+                if (!replaced[0].Equals(replaced[2]))
                 {
-                    // 원본 파일의 인코딩대로 저장
-                    sw = new StreamWriter(file, false, encoding);
-                    sw.Write(replaced[2]);
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e);
-                }
-                finally
-                {
-                    if (sw != null) sw.Close();
+                    StreamWriter sw = null;
+                    try
+                    {
+                        // 원본 파일의 인코딩대로 저장
+                        sw = new StreamWriter(file, false, encoding);
+                        sw.Write(replaced[2]);
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    finally
+                    {
+                        if (sw != null) sw.Close();
+                    }
                 }
             }
 
